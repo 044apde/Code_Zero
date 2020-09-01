@@ -1,9 +1,4 @@
-import requests
-
-def crawl(url):
-    data = requests.get(url)
-    print(data, url)
-    return data.content
+from libs.instagram_crawl import crawl
 
 url = "https://www.instagram.com/explore/tags/술담화/"
 
