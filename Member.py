@@ -1,5 +1,3 @@
-code_zero = {"15학번": "김신", "19학번01": "김재연","19학번02": "송상준" }
+code_zero = {"김신,김재연,송상준,박동준"}
 
-print(code_zero["15학번"])
-print(code_zero["19학번01"])
-print(code_zero["19학번02"])
+print("맴버 이름은 : ", code_zero)
