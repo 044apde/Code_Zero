@@ -34,7 +34,7 @@ driver.get(url) # 해시태그 술담화 검색
 time.sleep(4)
 
 driver.find_element_by_css_selector('div.v1Nh3.kIKUG._bz0w').click() # class 찾기
-for i in range(2000):
+for i in range(10000):
     time.sleep(1)
     try:
         data = driver.find_element_by_css_selector('.C7I1f.X7jCj')

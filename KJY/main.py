@@ -11,7 +11,9 @@ search = input("검색어를 입력하세요 : " )
 searching = str(search)
 search = urllib.parse.quote(search)
 url = 'https://www.instagram.com/explore/tags/'+str(search)+'/'
-driver = webdriver.Chrome('chromedriver.exe')
+driver = webdriver.Chrome(
+    executable_path = "../K/ChromeDriver/chromedriver"
+)
 
 driver.get(url) #검색어입력한 인스타그램 url 저장
 sleep(3) #로딩 시간을 위한 속도조절 
@@ -35,12 +37,14 @@ while True: # 반복문 시작
 # 페이지 스크롤
     last_height = driver.execute_script("return document.body.scrollHeight")
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-    #sleep(SCROLL_PAUSE_TIME)
+    sleep(SCROLL_PAUSE_TIME)
     new_height = driver.execute_script("return document.body.scrollHeight")
+
     if new_height == last_height:
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
         sleep(SCROLL_PAUSE_TIME)
         new_height = driver.execute_script("return document.body.scrollHeight")
+
         if new_height == last_height:
             break
             
