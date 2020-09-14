@@ -13,6 +13,7 @@ from flask import Request
 from urllib import request
 import re
 
+
 driver = webdriver.Chrome(
     executable_path = "./ChromeDriver/chromedriver"
 )
@@ -27,19 +28,20 @@ def insta_searching(word):
 def select_first(driver):
     first = driver.find_element_by_css_selector('div._9AhH0')
     first.click()
-    time.sleep(3)
+    time.sleep(4)
 
 # 함수 정의: 콘텐츠 불러오기
-def get_content(driver):
+def get_content(driver: object) -> object:
     # 1. 현재 페이지의 HTML 정보 가져오기
     html = driver.page_source
-    soup = BeautifulSoup(html, 'lxml')
+    soup = BeautifulSoup(html, 'html.parser')
 
     # 2. 본문 내용 가오기
     try:                            # 여러 태그중에서 첫번째([0]) 태그를 선택한다.
         content = soup.select('div.C4VMK > span')[0].text
                                     # 첫 게시글 본문 내용이 <div class = 'C4VMK'> 임을 알 수 있다.
                                     # 태그명이 div, class명이 C4VMK인 태그 아래에 있는 span 태그를 모두 선택한다.
+
     except:
         content = ''
     # 3. 본문 내용에서 해시태그 가져오기(정규표현식을 활용한다.)
@@ -55,7 +57,7 @@ def get_content(driver):
 
     # 5. 좋아요 수 가져오기
     try:
-        like = soup.select('div,Nm9Fw > button')[0].text[4:-1]
+        like = soup.select('div.Nm9Fw > button')[0].text[4:-1]
     except:
         like = 0
 
@@ -69,11 +71,13 @@ def get_content(driver):
     data = [content, date, like, place, tags]
     return data
 
+
+
 # 함수 정의: 다음 페이지로 넘어가기.
 def move_next(driver):
     right = driver.find_element_by_css_selector('a._65Bje.coreSpriteRightPaginationArrow')
     right.click()
-    time.sleep(1)
+    time.sleep(3)
 
 #1. 크롬으로 인스타그램 - '술담화' 검색한다.
 print("CODE-ZERO : Instagram_Crawling Started...")
@@ -106,8 +110,12 @@ driver.find_element_by_xpath(save_now_butotn).click()
 
 time.sleep(6)
 
+driver.get(url)
+time.sleep(3)
+
 # 크롤링할 게시물의 수 지정하기
-target = 10 # 크롤링할 게시물의 수.
+target = 100
+# 크롤링할 게시물의 수.
 num_of_data = target
 print('Collecting a total of {0} data...'.format(target))
 print("Collecting...")
@@ -116,6 +124,7 @@ time.sleep(2)
 
 #4. 첫번째 게시글 열기.
 select_first(driver)
+time.sleep(3)
 
 # 5. 비어있는 변수(result)만들기.
 result = []
@@ -135,7 +144,7 @@ print("SHUT DOWN CHROME IN 2 SECONDS")
 time.sleep(2)
 
 # 크롤링 후 엑셀에 저장한다.
-instagram_crawling = pd.DataFrame(result, columns=['Number','Dontent', 'Date', 'Like','Place'])
+instagram_crawling = pd.DataFrame(result, columns=['Contents','Date', 'Like', 'Place','Tag'])
 instagram_crawling.to_excel('instagram_crawling.xlsx')
 
 Final_Data = pd.read_excel("/Users/044apde/Documents/GitHub/Code_Zero/K/insta.xlsx")
