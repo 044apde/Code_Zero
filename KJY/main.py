@@ -57,6 +57,7 @@ hashtags2 = []
 
 reallinknum = len(reallink)
 print("총"+str(reallinknum)+"개의 데이터.")
+
 try:  # 반복문 시작 ( print 명령어로 원하는 문자열인지 하나씩 확인해보시길 바랍니다.
     for i in range(0,reallinknum):
         hashtags2.append([])

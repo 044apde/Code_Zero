@@ -5,9 +5,8 @@ from selenium import webdriver
 import time
 import warnings
 from tqdm import tqdm
-from selenium.webdriver.common.keys import Keys
 import pandas as pd
-import sys
+
 
 warnings.filterwarnings(action='ignore')
 

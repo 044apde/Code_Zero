@@ -1,4 +1,4 @@
-import csv
+simport csv
 import time
 from urllib.parse import quote_plus
 from selenium import webdriver
