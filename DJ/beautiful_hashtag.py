@@ -4,21 +4,22 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 import time
 import pandas as pd
-
+from pandas import read_csv
+import csv
 
 
 baseurl = 'https://www.instagram.com/explore/tags/'
-plusurl = input('검색할태그를 입력하세요 : ' )
+plusurl = input('검색할태그를 입력하세요 : ')
 url = baseurl + quote_plus(plusurl)
 
-driver=webdriver.Chrome(executable_path="../K/ChromeDriver/chromedriver")
+driver=webdriver.Chrome(executable_path="../webdriver/chromedriver.exe")
 driver.get(url)
 time.sleep(5)
 
 html =driver.page_source
 soup= BeautifulSoup(html,"html.parser")
 
-insta =soup.select('.v1Nh3.kIKUG._bz0w') # 원하는 태그안에 있는 정보를 가져와서 저장, 다가져온거임
+insta =soup.select('.v1Nh3.kIKUG._bz0w')#원하는 태그안에 있는 정보를 가져와서 저장, 다가져온거임
 
 for i in insta:
     sup = i.a['href']
@@ -34,12 +35,12 @@ for i in insta:
         has = str(tag).split("#")[1].split("</a>")[0]
         hashtag.append(has)
 
-    print(hashtag)
+    data = {"hash" : hashtag }
 
-data = pd.DataFrame(hashtag)
-data.to_csv('insta.xtx', encoding='utf-8')
+Final = pd.Dataframe(data)
+Final.to_excel("술담화")
 
-driver.close()
+
 
 
 
