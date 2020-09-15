@@ -12,7 +12,9 @@ baseurl = 'https://www.instagram.com/explore/tags/'
 plusurl = input('검색할태그를 입력하세요 : ' )
 url = baseurl + quote_plus(plusurl)
 
-driver=webdriver.Chrome(executable_path="../webdriver/chromedriver.exe")
+driver = webdriver.Chrome(
+    executable_path = "./ChromeDriver/chromedriver"
+)
 driver.get(url)
 time.sleep(5)
 

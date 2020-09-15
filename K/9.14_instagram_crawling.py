@@ -31,7 +31,7 @@ def select_first(driver):
     time.sleep(4)
 
 # 함수 정의: 콘텐츠 불러오기
-def get_content(driver: object) -> object:
+def get_content(driver):
     # 1. 현재 페이지의 HTML 정보 가져오기
     html = driver.page_source
     soup = BeautifulSoup(html, 'html.parser')
@@ -56,10 +56,14 @@ def get_content(driver: object) -> object:
         date = ''
 
     # 5. 좋아요 수 가져오기
-    try:
-        like = soup.select('div.Nm9Fw > button')[0].text[4:-1]
-    except:
-        like = 0
+    soup1 = str(soup.find_all(attrs = {'class': 'Nm9Fw'}))
+    subValue = 'span'
+    if soup1 == "[]" :
+        like = '0'
+    elif soup1.find(subValue) == -1 :
+        like = soup.split('좋아요 ')[1].split('개')[0]
+    elif soup1.find(subValue) != -1 :
+        like = soup.split('span')[1].split('/span')[0]
 
     # 6. 위치 정보 가져오기
     try:
@@ -114,7 +118,7 @@ driver.get(url)
 time.sleep(3)
 
 # 크롤링할 게시물의 수 지정하기
-target = 100
+target = 10
 # 크롤링할 게시물의 수.
 num_of_data = target
 print('Collecting a total of {0} data...'.format(target))
