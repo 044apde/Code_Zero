@@ -12,6 +12,7 @@ from requests import Request
 from flask import Request
 from urllib import request
 import re
+import datetime
 
 
 driver = webdriver.Chrome(
@@ -56,14 +57,10 @@ def get_content(driver):
         date = ''
 
     # 5. 좋아요 수 가져오기
-    soup1 = str(soup.find_all(attrs = {'class': 'Nm9Fw'}))
-    subValue = 'span'
-    if soup1 == "[]" :
-        like = '0'
-    elif soup1.find(subValue) == -1 :
-        like = soup.split('좋아요 ')[1].split('개')[0]
-    elif soup1.find(subValue) != -1 :
-        like = soup.split('span')[1].split('/span')[0]
+    try:
+        like = soup.select('div.Nm9Fw > button')[0].text
+    except:
+        like = 0
 
     # 6. 위치 정보 가져오기
     try:
@@ -118,7 +115,8 @@ driver.get(url)
 time.sleep(3)
 
 # 크롤링할 게시물의 수 지정하기
-target = 10
+target = 520
+
 # 크롤링할 게시물의 수.
 num_of_data = target
 print('Collecting a total of {0} data...'.format(target))
@@ -135,8 +133,7 @@ result = []
 
 # 여러 게시물 크롤링하기.
 
-time.sleep(2)
-for i in tqdm(range(target)):
+for i in tqdm(range(10,target)):
     data = get_content(driver)
     result.append(data)
     move_next(driver)
@@ -148,6 +145,7 @@ print("SHUT DOWN CHROME IN 2 SECONDS")
 time.sleep(2)
 
 # 크롤링 후 엑셀에 저장한다.
+now = datetime.datetime.now()
 instagram_crawling = pd.DataFrame(result, columns=['Contents','Date', 'Like', 'Place','Tag'])
 instagram_crawling.to_excel('instagram_crawling.xlsx')
 
