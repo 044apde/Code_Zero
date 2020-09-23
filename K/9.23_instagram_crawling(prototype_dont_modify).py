@@ -21,6 +21,7 @@ import datetime
 import os
 import zipfile
 import shutil
+import unicodedata
 
 # 크롬이 모바일 장치로 인식되도록 속성을 변경한다.
 # options = webdriver.ChromeOptions()
@@ -62,6 +63,7 @@ def get_content(driver):
     # 2. 본문 내용 가오기
     try:                            # 여러 태그중에서 첫번째([0]) 태그를 선택한다.
         content = soup.select('div.C4VMK > span')[0].text
+        content = unicodedata.normalize('NFC', content)
                                     # 첫 게시글 본문 내용이 <div class = 'C4VMK'> 임을 알 수 있다.
                                     # 태그명이 div, class명이 C4VMK인 태그 아래에 있는 span 태그를 모두 선택한다.
 
@@ -71,7 +73,8 @@ def get_content(driver):
     # 3. 본문 내용에서 해시태그 가져오기(정규표현식을 활용한다.)
                                     # conetent 변수의 본문 내용 중 #으로 시작하며,
                                     # #뒤에 연속된 문자(공백이나 #, \기호가 아닌 경우)를 모두 찾아 tags 변수에 저장한
-    tags = re.findall(r'#[^\s#,\\]+',  content)
+    tags = str(re.findall(r'#[^\s#,\\]+',  content))
+    tags = unicodedata.normalize('NFC', tags)
 
     # 4. 작성일자 가져오기
     try:
