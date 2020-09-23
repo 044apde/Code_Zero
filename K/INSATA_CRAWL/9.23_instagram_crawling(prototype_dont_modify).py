@@ -32,7 +32,7 @@ import unicodedata
 now = datetime.datetime.now()
 
 # 드라이버 변수 지정, 패스 지정
-driver = webdriver.Chrome(executable_path = "./ChromeDriver/chromedriver.exe")
+driver = webdriver.Chrome(executable_path ="./ChromeDriver/chromedriver.exe")
 driver.implicitly_wait(5)
 
 # 검색할 url 지정
@@ -115,7 +115,7 @@ word = "술담화"
 url = insta_searching(word)
 driver.get(url)
 print("Open Chrome by webdriver...")
-time.sleep(3)
+time.sleep(5)
 
 # 2. 로그인하기.
 print("Login...")

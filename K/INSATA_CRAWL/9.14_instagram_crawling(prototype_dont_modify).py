@@ -16,7 +16,7 @@ import datetime
 
 now = datetime.datetime.now()
 driver = webdriver.Chrome(
-    executable_path = "./ChromeDriver/chromedriver"
+    executable_path ="../../ChromeDriver/chromedriver"
 )
 
 def insta_searching(word):
