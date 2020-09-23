@@ -1,16 +1,9 @@
-# 한글을 유니코드 형식으로 변환
 from urllib.request import urlopen
-# 한글을 유니코드 형식으로 변환
 from urllib.parse import quote_plus
 from bs4 import BeautifulSoup
-# webdriver 가져오기
 from selenium import webdriver
-# 크롤링 중 시간 대기를 위한 패키지
 import time
-# 경고메시지 제거 패키지
-import warnings
 import selenium.webdriver.common.keys
-# 퍼센트 패키지
 from tqdm import tqdm
 import pandas as pd
 from requests import Request
@@ -32,6 +25,7 @@ import unicodedata
 #options.add_argument('headless')
 #options.add_argument('window-size=1920x1080')
 #options.add_argument("disable-gpu")
+
 
 
 # 작업시간을 알리기 위한, 현재 시간 변수 지정
@@ -85,6 +79,7 @@ def get_content(driver):
     # 5. 좋아요 수 가져오기
     try:
         like = soup.select('div.Nm9Fw > button')[0].text
+        like = like[4:-1]
     except:
         like = 0
 
@@ -127,13 +122,9 @@ print("Login...")
 login_section = '//*[@id = "react-root"]/section/nav/div[2]/div/div/div[3]/div/span/a[1]/button'
 driver.find_element_by_xpath(login_section).click()
 time.sleep(4)
-
-
-
 elem_login = driver.find_element_by_name("username")
 elem_login.clear()
 elem_login.send_keys('044apde@gmail.com')
-
 elem_login = driver.find_element_by_name("password")
 elem_login.clear()
 elem_login.send_keys('skscjswo11')
@@ -150,7 +141,7 @@ driver.get(url)
 time.sleep(3)
 
 # 크롤링할 게시물의 수 지정하기
-target = 1
+target = 5
 
 # 크롤링할 게시물의 수.
 num_of_data = target
@@ -186,10 +177,3 @@ instagram_crawling.to_excel('instagram_crawling ' + str(now)[:13] + '.xlsx')
 # Final_Data = pd.read_excel("/Users/044apde/Documents/GitHub/Code_Zero/K/insta.xlsx")
 # Final_Data.head()
 driver.close()
-
-
-
-
-
-
-
