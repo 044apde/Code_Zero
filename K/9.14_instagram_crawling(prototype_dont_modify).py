@@ -14,7 +14,7 @@ from urllib import request
 import re
 import datetime
 
-
+now = datetime.datetime.now()
 driver = webdriver.Chrome(
     executable_path = "./ChromeDriver/chromedriver"
 )
@@ -68,8 +68,15 @@ def get_content(driver):
     except:
         place =''
 
+    # 7. 유저 아이디 가져오기
+    try:
+        ID = soup.selcet('div.C4VMK > h2 > div > span > a')
+    except:
+        ID = 'error' + str(now)[:10]
+
+
     # 7. 수집한 정보 저장하기
-    data = [content, date, like, place, tags]
+    data = [ID, content, date, like, place, tags]
     return data
 
 
@@ -115,7 +122,7 @@ driver.get(url)
 time.sleep(3)
 
 # 크롤링할 게시물의 수 지정하기
-target = 520
+target = 3
 
 # 크롤링할 게시물의 수.
 num_of_data = target
@@ -133,7 +140,7 @@ result = []
 
 # 여러 게시물 크롤링하기.
 
-for i in tqdm(range(10,target)):
+for i in tqdm(range(target)):
     data = get_content(driver)
     result.append(data)
     move_next(driver)
@@ -145,11 +152,10 @@ print("SHUT DOWN CHROME IN 2 SECONDS")
 time.sleep(2)
 
 # 크롤링 후 엑셀에 저장한다.
-now = datetime.datetime.now()
-instagram_crawling = pd.DataFrame(result, columns=['Contents','Date', 'Like', 'Place','Tag'])
-instagram_crawling.to_excel('instagram_crawling.xlsx')
+instagram_crawling = pd.DataFrame(result, columns=['ID', 'Contents', 'Date', 'Like', 'Place', 'Tag'])
+instagram_crawling.to_excel('instagram_crawling'+str(now)[:10]+'.xlsx')
 
-Final_Data = pd.read_excel("/Users/044apde/Documents/GitHub/Code_Zero/K/insta.xlsx")
+# Final_Data = pd.read_excel("/Users/044apde/Documents/GitHub/Code_Zero/K/insta.xlsx")
 
 driver.close()
 

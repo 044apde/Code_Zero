@@ -40,7 +40,7 @@ while True:
 
 
 
-        # Scroll down to bottom
+    # Scroll down to bottom
     last_height = driver.execute_script("return document.body.scrollHeight")
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 

@@ -53,8 +53,6 @@ def get_content(driver):
     except:
         date = ''
 
-
-
     # 6. 위치 정보 가져오기
     try:
         place = soup.select('div.JF9hh')[0].text
@@ -64,15 +62,9 @@ def get_content(driver):
     # 7. id 정보 가져오기
 
     try:
-        id1 = soup.select('div.e1e1d > span > a')[0]['href']
+        id1 = soup.select_one('div.e1e1d > span > a')[0]['href']
     except:
         id1 = ''
-
-
-
-
-
-
 
     # 7. 수집한 정보 저장하기
     data = [content, date, place, tags, id1 ]
