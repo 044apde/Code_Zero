@@ -80,7 +80,7 @@ for i in setlink[:sol]:
 
     #id추적
     id1= html.select_one('a',{'class': 'sqdOP yWX7d     _8A5w5   ZIAjV  '})
-    id2= id1.attrs['href']
+    id2= id1.attrs['href'].split("/")[1].split("/")[0]
 
     #게시날짜
     time1 = html.select_one('time', {"class": "FH9sR Nzb55"})
@@ -98,12 +98,13 @@ for i in setlink[:sol]:
     for tag in hashtag1:
         has = str(tag).split("#")[1].split("</a>")[0]
         hashtag.append(has)
+    imgUrl = html.select_one('div.KL4Bh').img['src']
 
-    sub = [id2, time2, like , place , content , hashtag ]
+    sub = [id2, time2, like , place , content , hashtag , imgUrl]
 
     result.append(sub)
 
-Final = pd.DataFrame(result, columns=['id' , 'date', 'like', 'place', 'content', 'hashtag'])
+Final = pd.DataFrame(result, columns=['id' , 'date', 'like', 'place', 'content', 'hashtag' ,'img'])
 Final.to_excel("스크롤.xlsx")
 
 driver.close()
