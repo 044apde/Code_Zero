@@ -80,7 +80,7 @@ for i in setlink[:sol]:
 
     #id추적
     id1= html.select_one('a',{'class': 'sqdOP yWX7d     _8A5w5   ZIAjV  '})
-    id2= id1.attrs['href']
+    id2= id1.attrs['href'].split("/")[1].split("/")[0]
 
     #게시날짜
     time1 = html.select_one('time', {"class": "FH9sR Nzb55"})
