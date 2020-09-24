@@ -96,9 +96,17 @@ def get_content(driver):
     except:
         ID = ''
 
-    # 7. 수집한 정보 저장하기
+    # 8. 이미지 URL 가져오기
+    try:
+        IMG = soup.select()
+    except:
+
+
+
+    # 8. 수집한 정보 저장하기
     data = [ID, content, date, like, place, tags]
     return data
+
 
 
 
