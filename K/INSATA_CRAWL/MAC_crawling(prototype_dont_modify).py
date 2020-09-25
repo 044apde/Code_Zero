@@ -60,8 +60,8 @@ def get_content(driver):
 
     # 5. 좋아요 수 가져오기
     try:
-        like = soup.select('div.Nm9Fw > button')[0].text
-        like = like[4:-1]
+        like = soup.select('div.Nm9Fw > button > span')[0].text
+
     except:
         like = 0
 
@@ -87,7 +87,7 @@ def get_content(driver):
 
 
     # 9. 수집한 정보 저장하기
-    data = [ID, content, date, like, place, tags, image]
+    data = [ID, date, like, place, tags, content, image]
     return data
 
 
@@ -132,7 +132,7 @@ driver.get(url)
 time.sleep(3)
 
 # 크롤링할 게시물의 수 지정하기
-target = 1
+target = 3
 
 # 크롤링할 게시물의 수.
 num_of_data = target
@@ -162,7 +162,7 @@ print("SHUT DOWN CHROME IN 2 SECONDS")
 time.sleep(2)
 
 # 크롤링 후 엑셀에 저장한다.
-instagram_crawling = pd.DataFrame(result, columns=['ID', 'Contents', 'Date', 'Like', 'Place', 'Tag', 'Image'])
+instagram_crawling = pd.DataFrame(result, columns=['ID', 'Date', 'Like', 'Place', 'Tag', 'Contents', 'Image'])
 instagram_crawling.to_excel('../DATA/C_DATA ' + str(now)[:13] + '.xlsx')
 
 # Final_Data = pd.read_excel("/Users/044apde/Documents/GitHub/Code_Zero/K/insta.xlsx")
