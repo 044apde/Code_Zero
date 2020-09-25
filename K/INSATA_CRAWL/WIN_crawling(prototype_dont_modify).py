@@ -32,7 +32,7 @@ import unicodedata
 now = datetime.datetime.now()
 
 # 드라이버 변수 지정, 패스 지정
-driver = webdriver.Chrome(executable_path ="../ChromeDriver/chromedriver")
+driver = webdriver.Chrome(executable_path ="./ChromeDriver/chromedriver.exe")
 driver.implicitly_wait(5)
 
 # 검색할 url 지정
@@ -150,7 +150,7 @@ driver.get(url)
 time.sleep(3)
 
 # 크롤링할 게시물의 수 지정하기
-target = 5
+target = 1
 
 # 크롤링할 게시물의 수.
 num_of_data = target
@@ -181,7 +181,7 @@ time.sleep(2)
 
 # 크롤링 후 엑셀에 저장한다.
 instagram_crawling = pd.DataFrame(result, columns=['ID', 'Contents', 'Date', 'Like', 'Place', 'Tag', 'Image'])
-instagram_crawling.to_excel('instagram_crawling ' + str(now)[:13] + '.xlsx')
+instagram_crawling.to_excel('../DATA/C_DATA ' + str(now)[:13] + '.xlsx')
 
 # Final_Data = pd.read_excel("/Users/044apde/Documents/GitHub/Code_Zero/K/insta.xlsx")
 # Final_Data.head()
