@@ -1,30 +1,12 @@
-from urllib.request import urlopen
-from urllib.parse import quote_plus
 from bs4 import BeautifulSoup
 from selenium import webdriver
 import time
-import selenium.webdriver.common.keys
 from tqdm import tqdm
 import pandas as pd
-from requests import Request
-from flask import Request
-from urllib import request
 import re
 import datetime
-import os
-import zipfile
-import shutil
 import unicodedata
 
-# 크롬이 모바일 장치로 인식되도록 속성을 변경한다.
-# options = webdriver.ChromeOptions()
-# mobile_emulation = {"deviceName": "Nexus 5"}
-# options.add_experimental_option("mobileEmulation", mobile_emulation)
-
-# 크롬 브라우저를 백그라운드 프로세스 형태로 실행시키고자 하는 경우 아래의 옵션도 추가한다.
-#options.add_argument('headless')
-#options.add_argument('window-size=1920x1080')
-#options.add_argument("disable-gpu")
 
 
 
@@ -32,7 +14,7 @@ import unicodedata
 now = datetime.datetime.now()
 
 # 드라이버 변수 지정, 패스 지정
-driver = webdriver.Chrome(executable_path ="./ChromeDriver/chromedriver.exe")
+driver = webdriver.Chrome(executable_path ="../ChromeDriver/chromedriver")
 driver.implicitly_wait(5)
 
 # 검색할 url 지정
@@ -181,7 +163,7 @@ time.sleep(2)
 
 # 크롤링 후 엑셀에 저장한다.
 instagram_crawling = pd.DataFrame(result, columns=['ID', 'Contents', 'Date', 'Like', 'Place', 'Tag', 'Image'])
-instagram_crawling.to_excel('./DATA/C_DATA ' + str(now)[:13] + '.xlsx')
+instagram_crawling.to_excel('../DATA/C_DATA ' + str(now)[:13] + '.xlsx')
 
 # Final_Data = pd.read_excel("/Users/044apde/Documents/GitHub/Code_Zero/K/insta.xlsx")
 # Final_Data.head()
