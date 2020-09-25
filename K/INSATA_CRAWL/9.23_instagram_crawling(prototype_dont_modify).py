@@ -55,7 +55,7 @@ def get_content(driver):
     soup = BeautifulSoup(html, 'html.parser')
 
     # 2. 본문 내용 가오기
-    try:                            # 여러 태그중에서 첫번째([0]) 태그를 선택한다.
+    try:                         # 여러 태그중에서 첫번째([0x]) 태그를 선택한다.
         content = soup.select('div.C4VMK > span')[0].text
         content = unicodedata.normalize('NFC', content)
                                     # 첫 게시글 본문 내용이 <div class = 'C4VMK'> 임을 알 수 있다.
@@ -64,12 +64,17 @@ def get_content(driver):
     except:
         content = ''
 
-    # 3. 본문 내용에서 해시태그 가져오기(정규표현식을 활용한다.)
+    # 3.해시태그 가져오기(정규표현식을 활용한다.)
                                     # conetent 변수의 본문 내용 중 #으로 시작하며,
                                     # #뒤에 연속된 문자(공백이나 #, \기호가 아닌 경우)를 모두 찾아 tags 변수에 저장한
-    tags = str(re.findall(r'#[^\s#,\\]+',  content))
-    tags = unicodedata.normalize('NFC', tags)
-
+    if str(re.findall(r'#[^\s#,\\]+',  content)) != []:
+        try:
+            tags = str(re.findall(r'#[^\s#,\\]+',  content))
+            tags = unicodedata.normalize('NFC', tags)
+        except:
+            tags ="NO TAGS"
+    else:
+        tags= "NO TAGS"
     # 4. 작성일자 가져오기
     try:
         date = soup.select('time._1o9PC.Nzb55')[0]['datetime'][:10] # 앞에서부터 10자리 글자
@@ -98,13 +103,12 @@ def get_content(driver):
 
     # 8. 이미지 URL 가져오기
     try:
-        IMG = soup.select()
+        image = soup.select('div.KL4Bh > img')[0]['src']
     except:
+        image = "CANT FIND ELEMENT"
 
-
-
-    # 8. 수집한 정보 저장하기
-    data = [ID, content, date, like, place, tags]
+    # 9. 데이터 저장하기
+    data = [ID, date, like, place, tags, content, image]
     return data
 
 
@@ -149,7 +153,7 @@ driver.get(url)
 time.sleep(3)
 
 # 크롤링할 게시물의 수 지정하기
-target = 5
+target = 1
 
 # 크롤링할 게시물의 수.
 num_of_data = target
@@ -179,8 +183,8 @@ print("SHUT DOWN CHROME IN 2 SECONDS")
 time.sleep(2)
 
 # 크롤링 후 엑셀에 저장한다.
-instagram_crawling = pd.DataFrame(result, columns=['ID', 'Contents', 'Date', 'Like', 'Place', 'Tag'])
-instagram_crawling.to_excel('instagram_crawling ' + str(now)[:13] + '.xlsx')
+instagram_crawling = pd.DataFrame(result, columns=['ID', 'Date', 'Like', 'Place', 'Tags', 'Contents', 'Image URL'])
+instagram_crawling.to_excel('./DATA/'+'C_DATA ' + str(now)[:13] + '.xlsx')
 
 # Final_Data = pd.read_excel("/Users/044apde/Documents/GitHub/Code_Zero/K/insta.xlsx")
 # Final_Data.head()
