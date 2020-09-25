@@ -32,7 +32,7 @@ import unicodedata
 now = datetime.datetime.now()
 
 # 드라이버 변수 지정, 패스 지정
-driver = webdriver.Chrome(executable_path ="./ChromeDriver/chromedriver.exe")
+driver = webdriver.Chrome(executable_path ="../ChromeDriver/chromedriver")
 driver.implicitly_wait(5)
 
 # 검색할 url 지정
@@ -98,13 +98,14 @@ def get_content(driver):
 
     # 8. 이미지 URL 가져오기
     try:
-        IMG = soup.select()
+        image = soup.select('div.KL4Bh')[0]['src']
     except:
+        image = "There is no image"
 
 
 
-    # 8. 수집한 정보 저장하기
-    data = [ID, content, date, like, place, tags]
+    # 9. 수집한 정보 저장하기
+    data = [ID, content, date, like, place, tags, image]
     return data
 
 
@@ -179,7 +180,7 @@ print("SHUT DOWN CHROME IN 2 SECONDS")
 time.sleep(2)
 
 # 크롤링 후 엑셀에 저장한다.
-instagram_crawling = pd.DataFrame(result, columns=['ID', 'Contents', 'Date', 'Like', 'Place', 'Tag'])
+instagram_crawling = pd.DataFrame(result, columns=['ID', 'Contents', 'Date', 'Like', 'Place', 'Tag', 'Image'])
 instagram_crawling.to_excel('instagram_crawling ' + str(now)[:13] + '.xlsx')
 
 # Final_Data = pd.read_excel("/Users/044apde/Documents/GitHub/Code_Zero/K/insta.xlsx")
