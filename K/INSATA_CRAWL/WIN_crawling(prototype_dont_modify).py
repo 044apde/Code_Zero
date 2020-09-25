@@ -98,7 +98,7 @@ def get_content(driver):
 
     # 8. 이미지 URL 가져오기
     try:
-        image = soup.select('div.KL4Bh')[0]['src']
+        image = soup.select('div.KL4Bh > img')[0]['src']
     except:
         image = "There is no image"
 
